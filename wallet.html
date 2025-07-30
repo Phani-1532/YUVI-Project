@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Ethereum Wallet - Wallet</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+  <nav class="navbar">
+    <div class="nav-logo">🦊 MiniWallet</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="wallet.html">Wallet</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+  <div class="main-container">
+    <h1>🦊 Your Wallet</h1>
+
+    <div class="glass-card">
+      <p>This is your wallet dashboard. View your balance, send ETH, and see your transaction history.</p>
+      <p><strong>Address:</strong> <span id="address">-</span>
+        <button id="copyAddressBtn">📋 Copy</button>
+      </p>
+      <p><strong>Private Key:</strong> <span id="privateKey">••••••••••••••••••••••••••••••••••••••••••••••••••••••••</span> <button id="revealKeyBtn" class="secondary">Show</button></p>
+      <p><strong>Balance:</strong> <span id="balance">0 ETH</span></p>
+      <div id="faucet-info" class="faucet-info" style="display: none;">
+        <p>Your balance is zero. Get some free test ETH to start sending transactions.</p>
+        <a href="https://sepoliafaucet.com/" target="_blank" rel="noopener noreferrer">
+            <button class="secondary">Go to Sepolia Faucet</button>
+        </a>
+      </div>
+      <button id="logoutBtn" class="secondary">Logout</button>
+    </div>
+
+    <div class="glass-card">
+      <h3>Send ETH</h3>
+      <div class="form-group">
+        <div class="input-with-button">
+          <input type="text" id="to" placeholder="Recipient address">
+          <button id="openAddressBookBtn" class="icon-button" title="Open Address Book">📖</button>
+        </div>
+        <div class="validation-error"></div>
+      </div>
+      <div class="form-group">
+        <input type="text" id="amount" placeholder="Amount in ETH">
+        <div class="validation-error"></div>
+      </div>
+      <p class="gas-estimate">Estimated Fee: <span id="gasFee">-</span> ETH</p>
+      <button id="sendEthBtn">🚀 Send</button>
+      <p id="txStatus"></p>
+    </div>
+  </div>
+
+  <!-- Transaction History Card -->
+  <div id="historyCard" class="glass-card" style="display: none;">
+    <h3>Transaction History</h3>
+    <div id="txList">
+      <!-- Transactions will be dynamically inserted here -->
+    </div>
+  </div>
+  <div id="toast-container"></div>
+
+  <!-- Address Book Modal -->
+  <div id="addressBookModal" class="modal-overlay">
+    <div class="modal-content">
+      <span id="closeAddressBookModalBtn" class="close-button">&times;</span>
+      <h3>Address Book</h3>
+      <div id="contactList">
+        <!-- Contacts will be dynamically inserted here -->
+      </div>
+      <hr>
+      <h4>Add New Contact</h4>
+      <div class="form-group">
+        <input type="text" id="contactNameInput" placeholder="Contact Name">
+        <div class="validation-error"></div>
+      </div>
+      <div class="form-group">
+        <input type="text" id="contactAddressInput" placeholder="Contact Address (0x...)">
+        <div class="validation-error"></div>
+      </div>
+      <button id="addContactBtn" style="margin-top: 0;">Add Contact</button>
+    </div>
+  </div>
+
+  <script type="module" src="wallet-app.js"></script>
+</body>
+</html>

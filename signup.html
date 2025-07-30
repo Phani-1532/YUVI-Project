@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Ethereum Wallet - Sign Up</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+  <nav class="navbar">
+    <div class="nav-logo">🦊 MiniWallet</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+  <div class="main-container">
+    <div class="glass-card auth-card">
+      <h1>Create a New Wallet</h1>
+      <p>Click the button below to generate a new, secure Ethereum wallet.</p>
+      <button id="generateWalletBtn">Generate New Wallet</button>
+      
+      <div id="new-wallet-details" style="display: none; margin-top: 20px;">
+        <h3>Your New Wallet - Save these details!</h3>
+        <p class="warning-text"><strong>IMPORTANT:</strong> Write down your private key and store it in a safe place. If you lose it, you will lose access to your funds forever. We cannot recover it for you.</p>
+        <p><strong>Address:</strong> <span id="address">-</span> <button id="copyAddressBtn">📋 Copy</button></p>
+        <p><strong>Private Key:</strong> <span id="privateKey">-</span> <button id="copyKeyBtn">📋 Copy</button></p>        
+        <div class="acknowledgement-box">
+          <input type="checkbox" id="keySavedCheckbox">
+          <label for="keySavedCheckbox">I have saved my private key in a secure place. I understand it cannot be recovered if lost.</label>
+        </div>
+        <!-- This button is disabled by default and should be enabled by JS when the checkbox is checked -->
+        <button id="proceedToWalletBtn" class="cta-button" disabled>I have saved my key. Proceed to Wallet &rarr;</button>
+      </div>
+
+      <hr>
+
+      <p class="auth-switch">Already have a wallet? <a href="login.html">Login here</a>.</p>
+    </div>
+  </div>
+  <div id="toast-container"></div>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
