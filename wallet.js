@@ -27,6 +27,7 @@ const sendEthBtn = document.getElementById('sendEthBtn');
 const gasFeeSpan = document.getElementById('gasFee');
 const ensResolvedAddressP = document.getElementById('ensResolvedAddress'); // ADD to your HTML: A <p> tag to show the resolved ENS address.
 const logoutBtn = document.getElementById('logoutBtn'); // ADD to your HTML: A <button> for logging out.
+const generateWalletBtn = document.getElementById('generateWalletBtn'); // Reference to create wallet button
 // Modal elements
 const importModal = document.getElementById('importModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
@@ -462,7 +463,7 @@ function addContact() {
   }
 
   if (!isFormValid) return;
-  
+
   addressBook.push({ name, address });
   saveAddressBook();
   renderAddressBook();
@@ -670,7 +671,9 @@ function debounce(func, delay) {
 /**
  * --- Event Listeners ---
  */
-document.getElementById('generateWalletBtn').addEventListener('click', generateWallet);
+if (generateWalletBtn) {
+  generateWalletBtn.addEventListener('click', generateWallet);
+}
 document.getElementById('copyAddressBtn').addEventListener('click', copyAddress);
 sendEthBtn.addEventListener('click', sendETH);
 if (logoutBtn) logoutBtn.addEventListener('click', logout);

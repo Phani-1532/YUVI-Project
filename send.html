@@ -20,8 +20,29 @@
   <div class="main-container">
     <h1>🦊 Mini Ethereum Wallet</h1>
 
-    <div class="glass-card">
-      <button id="generateWalletBtn">Create New Wallet</button>
+    <!-- Email Verification Form (initially visible) -->
+    <div id="emailForm" class="glass-card">
+      <h3>Create Wallet</h3>
+      <p>Enter your email to receive a verification OTP</p>
+      <div class="form-group">
+        <input type="email" id="email" placeholder="Enter your email">
+        <div class="validation-error" id="emailError"></div>
+      </div>
+      <button id="submitEmailBtn">Submit Email</button>
+    </div>
+
+    <!-- OTP Verification Form (initially hidden) -->
+    <div id="otpForm" class="glass-card" style="display: none;">
+      <h3>Verify OTP</h3>
+      <p>We've sent a verification code to your email</p>
+      <div class="form-group">
+        <input type="text" id="otp" placeholder="Enter OTP" maxlength="6">
+        <div class="validation-error" id="otpError"></div>
+      </div>
+      <button id="submitOtpBtn">Verify & Create Wallet</button>
+    </div>
+
+    <div class="glass-card" id="walletInfo" style="display: none;">
       <button id="openImportModalBtn" class="secondary">Import Wallet</button>
       <p><strong>Address:</strong> <span id="address">-</span>
         <button id="copyAddressBtn">📋 Copy</button>
@@ -100,6 +121,70 @@
     </div>
   </div>
 
+  <script>
+    // Handle email submission and OTP verification
+    document.getElementById('submitEmailBtn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      if (!email) {
+        document.getElementById('emailError').textContent = 'Email is required';
+        return;
+      }
+      
+      try {
+        const response = await fetch('http://localhost:3000/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        
+        if (response.ok) {
+          document.getElementById('emailForm').style.display = 'none';
+          document.getElementById('otpForm').style.display = 'block';
+          showToast('OTP sent to your email', 'success');
+        } else {
+          document.getElementById('emailError').textContent = 'Failed to send OTP';
+          showToast('Failed to send OTP', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('emailError').textContent = 'Network error';
+      }
+    });
+
+    document.getElementById('submitOtpBtn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const otp = document.getElementById('otp').value;
+      
+      if (!otp) {
+        document.getElementById('otpError').textContent = 'OTP is required';
+        return;
+      }
+      
+      try {
+        const response = await fetch('http://localhost:3000/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, otp })
+        });
+        
+        const result = await response.json();
+        if (result.verified) {
+          // OTP verified - show wallet creation UI and generate wallet
+          document.getElementById('otpForm').style.display = 'none';
+          document.getElementById('walletInfo').style.display = 'block';
+          showToast('OTP verified successfully!', 'success');
+          document.getElementById('generateWalletBtn').click(); // Trigger wallet creation
+        } else {
+          document.getElementById('otpError').textContent = 'Invalid OTP';
+          showToast('Invalid OTP', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('otpError').textContent = 'Verification failed';
+      }
+    });
+  </script>
+  
   <script type="module" src="wallet.js"></script>
 </body>
 </html>
